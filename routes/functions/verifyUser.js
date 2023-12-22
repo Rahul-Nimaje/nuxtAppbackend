@@ -19,7 +19,7 @@ exports.func = async (params, runningTransaction) => {
                 }
             },
             transaction: t,
-            // raw: true
+            raw: true
         });
         if (!findUser) {
             throw new Error('User not found')
@@ -27,10 +27,9 @@ exports.func = async (params, runningTransaction) => {
         let passwordMatch = await comparePassword.func(findUser.password, params.password);
         console.log("passwordMatch", passwordMatch);
         if (!passwordMatch) throw new Error('Password not Match');
-        let token = await generateToken.func(findUser);
-        findUser.update({token:token});
-        userInfo={...findUser.dataValues,token}
-        console.log("token.........", token)
+        let token = await generateToken.func(findUser.dataValues);
+        // findUser.update({token:token});
+        userInfo={...findUser,token}
         if (!runningTransaction) await t.commit();
     } catch (err) {
         if (!runningTransaction) await t.rollback();

@@ -25,6 +25,7 @@ router.post('/login', async (req, res) => {
   console.log("loginResponse", loginResponse)
   res.send(loginResponse)
 })
+router.use(require('../middleware/auth'))
 router.post('/updateProfile', async (req, res) => {
   console.log("regisssssssteruser", req.body)
   const changePassword = await fn.passWordChange(req.body);
