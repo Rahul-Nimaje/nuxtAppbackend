@@ -1,7 +1,7 @@
 // models/user.js
 'use strict';
 const { DataTypes } = require('sequelize');
-let hashPassword = require('../routes/functions/hashPassword')
+let hashPassword = require('../routes/functions/userModule/hashPassword')
 module.exports = (sequelize) => {
     const User = sequelize.define('user', {
         first_name: {
@@ -28,10 +28,8 @@ module.exports = (sequelize) => {
     });
 
     User.beforeCreate(async(user) => {
-        console.log("userssssss", user);
         try {
             const hashPasswords =await hashPassword.func(user.password);
-            console.log("hashPassword",hashPasswords);
             user.password=hashPasswords
         } catch (err) {
             throw new Error(err)

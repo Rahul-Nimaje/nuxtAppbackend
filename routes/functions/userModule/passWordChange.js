@@ -1,11 +1,11 @@
-const { user, sequelize: sequelizeTransaction } = require('../../models');
+const { user, sequelize: sequelizeTransaction } = require('../../../models');
 const hashPassword = require('./hashPassword');
 const Op = require('sequelize').Op
 const httpContext = require('express-http-context');
 exports.func = async (params, runningTransaction) => {
+    console.log("httpContext",httpContext.get('LoggedinUser'))
     let t = runningTransaction || await sequelizeTransaction.transaction();
     let userInfo;
-    console.log('httpContext.........', httpContext.get('Loggedinuser'))
     try {
         if (params) {
             let data = params.id ? params : {};

@@ -1,8 +1,7 @@
-const { user, sequelize: sequelizeTransaction } = require('../../models');
+const { user, sequelize: sequelizeTransaction } = require('../../../models');
 const sequelize=require('sequelize')
 const Op =sequelize.Op
 exports.func = async (params, runningTransaction) => {
-    console.log("params", params);
     let userData;
     let t = runningTransaction || await sequelizeTransaction.transaction();
     try {
@@ -16,7 +15,6 @@ exports.func = async (params, runningTransaction) => {
             defaults:params,
             transaction:t
         });
-        console.log("userData",findUser,createUser);
         userData=createUser?findUser:'User Alredy Created'
         if (!runningTransaction) await t.commit()
     }

@@ -1,4 +1,4 @@
-const { user, sequelize: sequelizeTransaction } = require('../../models');
+const { user, sequelize: sequelizeTransaction } = require('../../../models');
 const Op = require('sequelize').Op;
 const comparePassword = require('./comaparePassword');
 const generateToken = require('./generateToken')
@@ -25,9 +25,8 @@ exports.func = async (params, runningTransaction) => {
             throw new Error('User not found')
         }
         let passwordMatch = await comparePassword.func(findUser.password, params.password);
-        console.log("passwordMatch", passwordMatch);
         if (!passwordMatch) throw new Error('Password not Match');
-        let token = await generateToken.func(findUser.dataValues);
+        let token = await generateToken.func(findUser);
         // findUser.update({token:token});
         userInfo={...findUser,token}
         if (!runningTransaction) await t.commit();
