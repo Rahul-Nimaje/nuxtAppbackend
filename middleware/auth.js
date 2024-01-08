@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 var httpContext = require('express-http-context');
 module.exports = (req, res, next) => {
+    console.log("checkkkkkkkkkkkk")
     const authHeader = req.header('Authorization');
     if (!authHeader) return res.status(403).json({ message: 'Access denied. No token provided.' });
     const [bearer, token] = authHeader.split(' ');

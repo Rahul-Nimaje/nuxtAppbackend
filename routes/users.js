@@ -16,10 +16,14 @@ router.post('/register', async (req, res) => {
 
 })
 router.post('/login', async (req, res) => {
-  const loginResponse = await fn.verifyUser(req.body).catch(err=>
-    {
-    });
-  res.send(loginResponse)
+  try {
+    const loginResponse = await fn.verifyUser(req.body)
+    console.log("loginResponse", loginResponse)
+    res.send(loginResponse)
+  } catch (err) {
+    console.log("err.message",err.message)
+    res.status(500).send(err.message)
+  }
 })
 router.use(require('../middleware/auth'))
 router.post('/updateProfile', async (req, res) => {

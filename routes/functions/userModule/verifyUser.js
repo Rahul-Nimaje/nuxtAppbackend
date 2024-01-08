@@ -4,7 +4,7 @@ const comparePassword = require('./comaparePassword');
 const generateToken = require('./generateToken')
 
 exports.func = async (params, runningTransaction) => {
-   
+
     if (!params) {
         throw new Error('Parameter not found')
     }
@@ -26,13 +26,15 @@ exports.func = async (params, runningTransaction) => {
         }
         let passwordMatch = await comparePassword.func(findUser.password, params.password);
         if (!passwordMatch) throw new Error('Password not Match');
+
         let token = await generateToken.func(findUser);
         // findUser.update({token:token});
-        userInfo={...findUser,token}
+
+        userInfo = { ...findUser, token }
         if (!runningTransaction) await t.commit();
     } catch (err) {
         if (!runningTransaction) await t.rollback();
-        throw new Error(err)
+        throw new Error(err.message)
     }
     return userInfo
 }
