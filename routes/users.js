@@ -18,7 +18,6 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const loginResponse = await fn.verifyUser(req.body)
-    console.log("loginResponse", loginResponse)
     res.send(loginResponse)
   } catch (err) {
     console.log("err.message",err.message)
